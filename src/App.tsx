@@ -1,5 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import watchHero from "@/assets/watch-hero.jpg";
 import watchMovement from "@/assets/watch-movement.jpg";
@@ -8,10 +7,6 @@ import watchWrist from "@/assets/watch-wrist.jpg";
 import watchDial from "@/assets/watch-dial.jpg";
 import earth1996 from "@/assets/earth-1996.jpg";
 import earth2026 from "@/assets/earth-2026.jpg";
-
-export const Route = createFileRoute("/")({
-  component: Index,
-});
 
 /* ---------- Live counter ---------- */
 const START = new Date("2024-01-01T00:00:00Z").getTime();
@@ -33,7 +28,10 @@ function useLiveCounters() {
 }
 
 function fmt(n: number, digits = 0) {
-  return n.toLocaleString("en-US", { maximumFractionDigits: digits, minimumFractionDigits: digits });
+  return n.toLocaleString("en-US", {
+    maximumFractionDigits: digits,
+    minimumFractionDigits: digits,
+  });
 }
 
 /* ---------- Nav ---------- */
@@ -41,12 +39,22 @@ function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-[color:var(--background)]/70 border-b border-[color:var(--border)]">
       <div className="max-w-[1400px] mx-auto flex items-center justify-between px-6 lg:px-10 h-16">
-        <a href="#top" className="serif text-xl tracking-widest">MONOCKLE</a>
+        <a href="#top" className="serif text-xl tracking-widest">
+          MONOCKLE
+        </a>
         <nav className="hidden md:flex items-center gap-10 text-[13px] text-[color:var(--muted-foreground)]">
-          <a href="#collection" className="hover:text-[color:var(--foreground)] transition-colors">The Piece</a>
-          <a href="#process" className="hover:text-[color:var(--foreground)] transition-colors">The Reverse</a>
-          <a href="#impact" className="hover:text-[color:var(--foreground)] transition-colors">Impact</a>
-          <a href="#voices" className="hover:text-[color:var(--foreground)] transition-colors">Voices</a>
+          <a href="#collection" className="hover:text-[color:var(--foreground)] transition-colors">
+            The Piece
+          </a>
+          <a href="#process" className="hover:text-[color:var(--foreground)] transition-colors">
+            The Reverse
+          </a>
+          <a href="#impact" className="hover:text-[color:var(--foreground)] transition-colors">
+            Impact
+          </a>
+          <a href="#voices" className="hover:text-[color:var(--foreground)] transition-colors">
+            Voices
+          </a>
         </nav>
         <a
           href="#reserve"
@@ -82,8 +90,24 @@ function ReverseDial() {
           <stop offset="100%" stopColor="#050505" />
         </radialGradient>
       </defs>
-      <circle cx="200" cy="200" r="195" fill="url(#dg)" stroke="var(--gold)" strokeWidth="0.5" opacity="0.9" />
-      <circle cx="200" cy="200" r="180" fill="none" stroke="var(--gold)" strokeOpacity="0.25" strokeWidth="0.5" />
+      <circle
+        cx="200"
+        cy="200"
+        r="195"
+        fill="url(#dg)"
+        stroke="var(--gold)"
+        strokeWidth="0.5"
+        opacity="0.9"
+      />
+      <circle
+        cx="200"
+        cy="200"
+        r="180"
+        fill="none"
+        stroke="var(--gold)"
+        strokeOpacity="0.25"
+        strokeWidth="0.5"
+      />
       {nums.map((n) => {
         // Counter-clockwise placement: 12 top, then 1 to the LEFT
         const angle = (-n * 30 - 90) * (Math.PI / 180);
@@ -122,17 +146,66 @@ function ReverseDial() {
           />
         );
       })}
-      <g style={{ transform: `rotate(${hrAng}deg)`, transformOrigin: "200px 200px", transition: "transform .5s" }}>
-        <line x1="200" y1="210" x2="200" y2="110" stroke="var(--gold)" strokeWidth="3" strokeLinecap="round" />
+      <g
+        style={{
+          transform: `rotate(${hrAng}deg)`,
+          transformOrigin: "200px 200px",
+          transition: "transform .5s",
+        }}
+      >
+        <line
+          x1="200"
+          y1="210"
+          x2="200"
+          y2="110"
+          stroke="var(--gold)"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
       </g>
-      <g style={{ transform: `rotate(${minAng}deg)`, transformOrigin: "200px 200px", transition: "transform .5s" }}>
-        <line x1="200" y1="215" x2="200" y2="70" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
+      <g
+        style={{
+          transform: `rotate(${minAng}deg)`,
+          transformOrigin: "200px 200px",
+          transition: "transform .5s",
+        }}
+      >
+        <line
+          x1="200"
+          y1="215"
+          x2="200"
+          y2="70"
+          stroke="var(--gold)"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
       </g>
-      <g style={{ transform: `rotate(${secAng}deg)`, transformOrigin: "200px 200px", transition: "transform .3s" }}>
-        <line x1="200" y1="220" x2="200" y2="55" stroke="#F5F2ED" strokeWidth="1" strokeLinecap="round" />
+      <g
+        style={{
+          transform: `rotate(${secAng}deg)`,
+          transformOrigin: "200px 200px",
+          transition: "transform .3s",
+        }}
+      >
+        <line
+          x1="200"
+          y1="220"
+          x2="200"
+          y2="55"
+          stroke="#F5F2ED"
+          strokeWidth="1"
+          strokeLinecap="round"
+        />
       </g>
       <circle cx="200" cy="200" r="4" fill="var(--gold)" />
-      <text x="200" y="270" textAnchor="middle" fontSize="8" letterSpacing="3" fill="var(--muted-foreground)">
+      <text
+        x="200"
+        y="270"
+        textAnchor="middle"
+        fontSize="8"
+        letterSpacing="3"
+        fill="var(--muted-foreground)"
+      >
         REVERSE HOROLOGY
       </text>
     </svg>
@@ -148,13 +221,16 @@ function Hero() {
         <div className="lg:col-span-7 fade-up">
           <p className="eyebrow mb-8">Est. 2026 · Chapter 01 · Reverse Horlogerie</p>
           <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(2.75rem,7vw,6rem)]">
-            Engineered to<br />
+            Engineered to
+            <br />
             Turn <span className="serif italic text-[color:var(--gold)]">Time</span> Back.
           </h1>
           <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
-            World's 1st watch engineered to move against time, ticking anti-clockwise beneath sapphire glass.
-            Every piece offsets 1 ton of CO₂ and removes 100kg of plastic.{" "}
-            <a href="#process" className="link-blue underline underline-offset-4">See how →</a>
+            World's 1st watch engineered to move against time, ticking anti-clockwise beneath
+            sapphire glass. Every piece offsets 1 ton of CO₂ and removes 100kg of plastic.{" "}
+            <a href="#process" className="link-blue underline underline-offset-4">
+              See how →
+            </a>
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a
@@ -169,7 +245,11 @@ function Hero() {
           {/* Live counter */}
           <div className="mt-14 grid grid-cols-3 gap-6 max-w-2xl">
             <LiveStat label="CO₂ offset · live" value={fmt(counters.co2, 2)} unit="tons" />
-            <LiveStat label="Plastic removed" value={fmt(counters.plastic / 1000, 2)} unit="tonnes" />
+            <LiveStat
+              label="Plastic removed"
+              value={fmt(counters.plastic / 1000, 2)}
+              unit="tonnes"
+            />
             <LiveStat label="Owners" value={fmt(counters.pieces)} unit="pieces" />
           </div>
         </div>
@@ -215,7 +295,10 @@ function Marquee() {
     <div className="border-y border-[color:var(--border)] py-5 overflow-hidden bg-[color:var(--surface)]">
       <div className="flex whitespace-nowrap marquee gap-12">
         {line.map((t, i) => (
-          <span key={i} className="serif italic text-lg text-[color:var(--muted-foreground)] flex items-center gap-12">
+          <span
+            key={i}
+            className="serif italic text-lg text-[color:var(--muted-foreground)] flex items-center gap-12"
+          >
             {t}
             <span className="text-[color:var(--gold)]">◐</span>
           </span>
@@ -280,11 +363,20 @@ function PieceCard({ piece, isFirst }: { piece: Piece; isFirst: boolean }) {
     thumbRefs.current[next]?.focus();
   };
 
-  const onKey = (e: React.KeyboardEvent, i: number) => {
-    if (e.key === "ArrowRight") { e.preventDefault(); focusThumb(i + 1); }
-    else if (e.key === "ArrowLeft") { e.preventDefault(); focusThumb(i - 1); }
-    else if (e.key === "Home") { e.preventDefault(); focusThumb(0); }
-    else if (e.key === "End") { e.preventDefault(); focusThumb(piece.images.length - 1); }
+  const onKey = (e: KeyboardEvent, i: number) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      focusThumb(i + 1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      focusThumb(i - 1);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      focusThumb(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      focusThumb(piece.images.length - 1);
+    }
   };
 
   return (
@@ -333,7 +425,9 @@ function PieceCard({ piece, isFirst }: { piece: Piece; isFirst: boolean }) {
               return (
                 <button
                   key={i}
-                  ref={(el) => { thumbRefs.current[i] = el; }}
+                  ref={(el) => {
+                    thumbRefs.current[i] = el;
+                  }}
                   role="tab"
                   aria-selected={selected}
                   aria-label={`Show ${im.label} view`}
@@ -346,7 +440,14 @@ function PieceCard({ piece, isFirst }: { piece: Piece; isFirst: boolean }) {
                       : "border-[color:var(--border)] opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <img src={im.src} alt="" aria-hidden="true" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                  <img
+                    src={im.src}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="sr-only">{im.label}</span>
                 </button>
               );
@@ -356,8 +457,12 @@ function PieceCard({ piece, isFirst }: { piece: Piece; isFirst: boolean }) {
       </div>
       <div className="p-6 sm:p-8 lg:p-12 flex flex-col min-w-0">
         <p className="eyebrow mb-4">{piece.ref}</p>
-        <h3 className="serif italic text-3xl sm:text-4xl lg:text-5xl mb-5 font-light">{piece.name}</h3>
-        <p className="text-[14px] leading-relaxed text-[color:var(--muted-foreground)] mb-8">{piece.lede}</p>
+        <h3 className="serif italic text-3xl sm:text-4xl lg:text-5xl mb-5 font-light">
+          {piece.name}
+        </h3>
+        <p className="text-[14px] leading-relaxed text-[color:var(--muted-foreground)] mb-8">
+          {piece.lede}
+        </p>
         <p className="text-[12px] tracking-[0.18em] uppercase text-[color:var(--gold)] mb-6">
           Offsets 1 ton CO₂ · 100kg plastic
         </p>
@@ -395,7 +500,10 @@ function Collection() {
   const go = (n: number) => {
     const clamped = Math.max(0, Math.min(PIECES.length - 1, n));
     setI(clamped);
-    trackRef.current?.scrollTo({ left: trackRef.current.clientWidth * clamped, behavior: "smooth" });
+    trackRef.current?.scrollTo({
+      left: trackRef.current.clientWidth * clamped,
+      behavior: "smooth",
+    });
   };
   return (
     <section id="collection" className="py-24 lg:py-32 border-t border-[color:var(--border)]">
@@ -404,13 +512,14 @@ function Collection() {
           <div className="max-w-2xl">
             <p className="eyebrow mb-5">02 — The Piece</p>
             <h2 className="text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.05] tracking-[-0.02em] font-normal">
-              Handcrafted <span className="serif italic text-[color:var(--gold)]">Style</span><br />
+              Handcrafted <span className="serif italic text-[color:var(--gold)]">Style</span>
+              <br />
               and Statement Pieces.
             </h2>
           </div>
           <p className="max-w-md text-[14px] leading-relaxed text-[color:var(--muted-foreground)]">
-            Each Monockle is assembled by hand in a limited run — one movement, many stories.
-            New references arrive as the archive grows. Swipe to explore.
+            Each Monockle is assembled by hand in a limited run — one movement, many stories. New
+            references arrive as the archive grows. Swipe to explore.
           </p>
         </div>
 
@@ -467,29 +576,25 @@ const STEPS = [
   {
     n: "01",
     title: "Turn the crown backward.",
-    body:
-      "Where every other watch winds forward, Monockle's crown loads a spring that drives the escapement in reverse. The tick you hear is opposite the world.",
+    body: "Where every other watch winds forward, Monockle's crown loads a spring that drives the escapement in reverse. The tick you hear is opposite the world.",
     img: watchHero,
   },
   {
     n: "02",
     title: "The Reverse caliber holds.",
-    body:
-      "Our 26R movement is hand-assembled with a modified anchor and inverted gear train. It measures the same seconds — it just refuses to bow to them.",
+    body: "Our 26R movement is hand-assembled with a modified anchor and inverted gear train. It measures the same seconds — it just refuses to bow to them.",
     img: watchMovement,
   },
   {
     n: "03",
     title: "Sapphire seals the intent.",
-    body:
-      "A domed sapphire crystal, scratch-resistant to 9 Mohs, protects the dial. The rehaut is engraved with a single line: TURN IT BACK.",
+    body: "A domed sapphire crystal, scratch-resistant to 9 Mohs, protects the dial. The rehaut is engraved with a single line: TURN IT BACK.",
     img: watchSide,
   },
   {
     n: "04",
     title: "Wear it. Undo something.",
-    body:
-      "Every Monockle on a wrist is 1 ton of CO₂ offset and 100kg of plastic removed — funded at purchase, not promised later.",
+    body: "Every Monockle on a wrist is 1 ton of CO₂ offset and 100kg of plastic removed — funded at purchase, not promised later.",
     img: watchHero,
   },
 ];
@@ -506,13 +611,20 @@ function Process() {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1]);
 
   return (
-    <section id="process" ref={ref} className="relative border-t border-[color:var(--border)]" style={{ height: `${STEPS.length * 100}vh` }}>
+    <section
+      id="process"
+      ref={ref}
+      className="relative border-t border-[color:var(--border)]"
+      style={{ height: `${STEPS.length * 100}vh` }}
+    >
       <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
         <div className="max-w-[1400px] w-full mx-auto px-6 lg:px-10 pt-24 pb-6">
           <p className="eyebrow mb-4">03 — The Reverse</p>
           <h2 className="text-[clamp(1.75rem,3.2vw,2.75rem)] leading-[1.1] tracking-[-0.02em] font-normal max-w-3xl">
-            This isn't a gimmick.<br />
-            <span className="serif italic text-[color:var(--gold)]">It's engineering</span> — one turn at a time.
+            This isn't a gimmick.
+            <br />
+            <span className="serif italic text-[color:var(--gold)]">It's engineering</span> — one
+            turn at a time.
           </h2>
         </div>
 
@@ -549,8 +661,12 @@ function Process() {
                 className={`absolute inset-0 ${i === active ? "pointer-events-auto" : "pointer-events-none"}`}
               >
                 <div className="serif text-6xl text-[color:var(--gold)] mb-4">{s.n}</div>
-                <h3 className="text-3xl lg:text-4xl font-normal leading-tight mb-6 max-w-md">{s.title}</h3>
-                <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)] max-w-md">{s.body}</p>
+                <h3 className="text-3xl lg:text-4xl font-normal leading-tight mb-6 max-w-md">
+                  {s.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)] max-w-md">
+                  {s.body}
+                </p>
               </motion.div>
             ))}
             <div className="absolute -bottom-10 left-0 right-0 flex gap-2">
@@ -585,8 +701,10 @@ function EarthMorph() {
         <div className="lg:col-span-5">
           <p className="eyebrow mb-5">04 — Why time matters</p>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.02em] font-normal">
-            Thirty years<br />
-            <span className="serif italic text-[color:var(--gold)]">the wrong way.</span><br />
+            Thirty years
+            <br />
+            <span className="serif italic text-[color:var(--gold)]">the wrong way.</span>
+            <br />
             We're turning it back.
           </h2>
           <p className="mt-8 text-[14px] leading-relaxed text-[color:var(--muted-foreground)] max-w-md">
@@ -596,11 +714,15 @@ function EarthMorph() {
           <div className="mt-10 grid grid-cols-2 gap-6 max-w-md">
             <div>
               <div className="serif text-2xl">-40%</div>
-              <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">Polar ice, since 1996</div>
+              <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">
+                Polar ice, since 1996
+              </div>
             </div>
             <div>
               <div className="serif text-2xl">1.24 M t</div>
-              <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">Ocean plastic, last year</div>
+              <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">
+                Ocean plastic, last year
+              </div>
             </div>
           </div>
           <p className="mt-8 text-[11px] tracking-[0.18em] uppercase text-[color:var(--muted-foreground)]">
@@ -666,8 +788,11 @@ function Venn() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
         <p className="eyebrow mb-5">05 — Triple Bottom Line</p>
         <h2 className="text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.02em] font-normal max-w-3xl">
-          Cohesion, consciousness,<br />
-          <span className="serif italic text-[color:var(--gold)]">and the intersection between.</span>
+          Cohesion, consciousness,
+          <br />
+          <span className="serif italic text-[color:var(--gold)]">
+            and the intersection between.
+          </span>
         </h2>
 
         <div className="mt-16 grid lg:grid-cols-2 gap-16 items-center">
@@ -675,42 +800,91 @@ function Venn() {
           <div className="relative aspect-square max-w-[520px] w-full mx-auto">
             <svg viewBox="0 0 400 400" className="w-full h-full">
               <defs>
-                <filter id="soft"><feGaussianBlur stdDeviation="0.4" /></filter>
+                <filter id="soft">
+                  <feGaussianBlur stdDeviation="0.4" />
+                </filter>
               </defs>
               {/* People — top */}
               <circle
-                cx="200" cy="150" r="110"
+                cx="200"
+                cy="150"
+                r="110"
                 fill="var(--foreground)"
                 fillOpacity={active === "people" ? 0.35 : 0.12}
-                stroke="var(--foreground)" strokeOpacity="0.6"
+                stroke="var(--foreground)"
+                strokeOpacity="0.6"
                 className="cursor-pointer transition-all"
                 onClick={() => setActive("people")}
               />
               {/* Planet — bottom left */}
               <circle
-                cx="140" cy="250" r="110"
+                cx="140"
+                cy="250"
+                r="110"
                 fill="var(--green)"
                 fillOpacity={active === "planet" ? 0.55 : 0.22}
-                stroke="var(--green)" strokeOpacity="0.9"
+                stroke="var(--green)"
+                strokeOpacity="0.9"
                 className="cursor-pointer transition-all"
                 onClick={() => setActive("planet")}
               />
               {/* Prosperity — bottom right */}
               <circle
-                cx="260" cy="250" r="110"
+                cx="260"
+                cy="250"
+                r="110"
                 fill="var(--gold)"
                 fillOpacity={active === "prosperity" ? 0.5 : 0.18}
-                stroke="var(--gold)" strokeOpacity="0.9"
+                stroke="var(--gold)"
+                strokeOpacity="0.9"
                 className="cursor-pointer transition-all"
                 onClick={() => setActive("prosperity")}
               />
-              <text x="200" y="90" textAnchor="middle" className="serif" fontSize="18" fill="var(--foreground)"
-                onClick={() => setActive("people")} style={{ cursor: "pointer" }}>People</text>
-              <text x="70" y="310" textAnchor="middle" className="serif" fontSize="18" fill="var(--foreground)"
-                onClick={() => setActive("planet")} style={{ cursor: "pointer" }}>Planet</text>
-              <text x="330" y="310" textAnchor="middle" className="serif" fontSize="18" fill="var(--foreground)"
-                onClick={() => setActive("prosperity")} style={{ cursor: "pointer" }}>Prosperity</text>
-              <text x="200" y="215" textAnchor="middle" className="serif italic" fontSize="13" fill="var(--foreground)" letterSpacing="2">
+              <text
+                x="200"
+                y="90"
+                textAnchor="middle"
+                className="serif"
+                fontSize="18"
+                fill="var(--foreground)"
+                onClick={() => setActive("people")}
+                style={{ cursor: "pointer" }}
+              >
+                People
+              </text>
+              <text
+                x="70"
+                y="310"
+                textAnchor="middle"
+                className="serif"
+                fontSize="18"
+                fill="var(--foreground)"
+                onClick={() => setActive("planet")}
+                style={{ cursor: "pointer" }}
+              >
+                Planet
+              </text>
+              <text
+                x="330"
+                y="310"
+                textAnchor="middle"
+                className="serif"
+                fontSize="18"
+                fill="var(--foreground)"
+                onClick={() => setActive("prosperity")}
+                style={{ cursor: "pointer" }}
+              >
+                Prosperity
+              </text>
+              <text
+                x="200"
+                y="215"
+                textAnchor="middle"
+                className="serif italic"
+                fontSize="13"
+                fill="var(--foreground)"
+                letterSpacing="2"
+              >
                 MONOCKLE
               </text>
             </svg>
@@ -733,7 +907,9 @@ function Venn() {
               ))}
             </div>
             <h3 className="serif italic text-4xl mb-5 font-light">{v.label}</h3>
-            <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)] max-w-lg">{v.body}</p>
+            <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)] max-w-lg">
+              {v.body}
+            </p>
             <ul className="mt-8 space-y-3 text-[14px]">
               {v.points.map((p) => (
                 <li key={p} className="flex items-center gap-3">
@@ -775,18 +951,24 @@ function Voices() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
         <p className="eyebrow mb-5">06 — In the wild</p>
         <h2 className="text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.02em] font-normal max-w-3xl">
-          The people <span className="serif italic text-[color:var(--gold)]">running</span> time back.
+          The people <span className="serif italic text-[color:var(--gold)]">running</span> time
+          back.
         </h2>
         <div className="mt-16 grid md:grid-cols-3 gap-6">
           {VOICES.map((v) => (
-            <figure key={v.name} className="border border-[color:var(--border)] p-8 bg-[color:var(--surface)] flex flex-col">
+            <figure
+              key={v.name}
+              className="border border-[color:var(--border)] p-8 bg-[color:var(--surface)] flex flex-col"
+            >
               <div className="text-[color:var(--gold)] tracking-[0.4em] text-sm mb-6">★★★★★</div>
               <blockquote className="serif italic text-xl leading-snug flex-1">
                 &ldquo;{v.quote}&rdquo;
               </blockquote>
               <figcaption className="mt-8 pt-6 border-t border-[color:var(--border)]">
                 <div className="text-sm">{v.name}</div>
-                <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">{v.role}</div>
+                <div className="text-[11px] tracking-[0.15em] uppercase text-[color:var(--muted-foreground)] mt-1">
+                  {v.role}
+                </div>
               </figcaption>
             </figure>
           ))}
@@ -806,7 +988,8 @@ function Invitation() {
             The invitation
           </p>
           <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.02em] font-normal">
-            Wear the <span className="serif italic">reverse.</span><br />
+            Wear the <span className="serif italic">reverse.</span>
+            <br />
             Own the impact.
           </h2>
         </div>
@@ -847,7 +1030,9 @@ function Footer() {
             <ul className="space-y-2 text-[color:var(--muted-foreground)]">
               {c.l.map((x) => (
                 <li key={x}>
-                  <a href="#" className="hover:text-[color:var(--foreground)] transition-colors">{x}</a>
+                  <a href="#" className="hover:text-[color:var(--foreground)] transition-colors">
+                    {x}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -862,7 +1047,7 @@ function Footer() {
   );
 }
 
-function Index() {
+export default function App() {
   return (
     <div className="min-h-screen">
       <Nav />
